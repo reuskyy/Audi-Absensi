@@ -8,6 +8,7 @@ class User extends CI_Controller
     {
         parent::__construct();
         is_logged_in();   
+        date_default_timezone_set('Asia/Jakarta');
     }
     public function index()
     {
@@ -226,6 +227,60 @@ class User extends CI_Controller
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal! /div>');
                 redirect('user/cuti_add');
+            }
+        }
+    
+
+    }
+    public function absensi()
+    {
+        $data['title'] = 'Absensi';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Admin_model', 'admin');
+        $userlogin = $this -> session ->userdata ('id_employee');
+        $data['usernya'] =  $this->db->query("SELECT user.*
+                                    FROM user
+                                    WHERE user.id_employee = $userlogin")->row_array();
+
+        $data['absensi'] = $this->admin->get_absensi();
+        // $data['status_cuti'] = $this->admin->get_status_cuti();
+        // $data['tipe_cuti'] = $this->admin->get_tipe_cuti();
+        $data['admin'] = $this->db->get('absensi')->result_array();
+
+        // $this->form_validation->set_rules('id_absen', 'id_absen');
+        $this->form_validation->set_rules('id_employee', 'id_employee', 'required');
+        $this->form_validation->set_rules('keterangan_absen', 'keterangan_absen', 'required');
+        $this->form_validation->set_rules('tgl_absen', 'tgl_absen');
+        $this->form_validation->set_rules('jam_masuk', 'jam_masuk');
+        
+        if($this->form_validation->run() == false) {
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar2', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('user/absensi', $data);
+        $this->load->view('templates/footer', $data);
+        } else {
+            // $id_absen = $this->input->post('id_absen', true);
+            $id_employee = $this->input->post('id_employee', true);
+            $keterangan_absen = $this->input->post('keterangan_absen', true);
+            $tgl_absen = $this->input->post('tgl_absen', true);
+            $jam_masuk = $this->input->post('jam_masuk', true);
+            $data = [
+                // 'id_absen' => htmlspecialchars($id_absen),
+                'id_employee' => htmlspecialchars($id_employee),
+                'keterangan_absen' => htmlspecialchars($keterangan_absen),
+                'tgl_absen' => date('Y-m-d'),
+                'jam_masuk' => date('H-i-s')
+            ];
+            // print_r($data);die;
+            $save = $this->admin->insert('absensi', $data);
+
+            if ($save) {
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">New employeeprofile added! /div>');
+                redirect('user/absensi');
+            } else {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal! /div>');
+                redirect('user/');
             }
         }
     

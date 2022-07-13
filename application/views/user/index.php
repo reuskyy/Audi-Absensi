@@ -89,7 +89,7 @@
 
 $.ajax({
     type: "POST",
-    url: '<?= base_url('admin/absenajax'); ?>',
+    url: '<?= base_url('ajax/absenajax'); ?>',
     data: {
         ket_absen: ket_absen
     }, // serializes the form's elements.
@@ -118,6 +118,39 @@ $.ajax({
 
 });
 </script>
+
+	 <script>
+        $("#listabsenku").on('click', '.detail-absen', function(e) {
+            e.preventDefault();
+            var absen_id = $(e.currentTarget).attr('data-absen-id');
+            if (absen_id === '') return;
+            $.ajax({
+                type: "POST",
+                url: '<?= base_url('ajax/dataabs?type=viewabs'); ?>',
+                data: {
+                    absen_id: absen_id
+                },
+                beforeSend: function() {
+                    swal.fire({
+                        imageUrl: "<?= base_url('assets'); ?>/img/ajax-loader.gif",
+                        title: "Mempersiapkan Preview Absensi",
+                        text: "Please wait",
+                        showConfirmButton: false,
+                        allowOutsideClick: false
+                    });
+                },
+                success: function(data) {
+                    swal.close();
+                    $('#viewabsensimodal').modal('show');
+                    $('#viewdataabsensi').html(data);
+
+                },
+                error: function() {
+                    swal.fire("Preview Absensi Gagal", "Ada Kesalahan Saat menampilkan data absensi!", "error");
+                }
+            });
+        });
+    </script>
 				<div class="card-footer">
 					<div class="d-flex align-items-center justify-content-between">
 						<div class="text-muted">Absen Datang Jam: 06:00:00</div>

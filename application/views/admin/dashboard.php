@@ -1,4 +1,7 @@
-<div class="container-fluid">
+
+
+
+<div class="container-fluid" style="padding-left:15vw";>
     <div class="my-4 d-sm-flex align-items-center justify-content-between">
         <h1>Dashboard</h1>
         <div class="btn btn-primary" id="sync-data-dashboard"><span class="fas fa-sync-alt mr-1"></span>Refresh Data</div>
@@ -8,11 +11,11 @@
             <div class="card bg-primary text-white mb-4">
                 <div class="card-body">
                     <h4><span class="fas fa-user-tie mr-2"></span>Jumlah Karyawan</h4>
-                    <h6 class="mt-3"><?= $jmlpegawai ?><div class="d-inline ml-1">Karyawan</div>
+                    <h6 class="mt-3"><? $jmlpegawai ?><div class="d-inline ml-1">Karyawan</div>
                     </h6>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="<?= base_url('datakaryawan'); ?>">Lihat Selengkapnya</a>
+                    <a class="small text-white stretched-link" href="<?= base_url('admin/employeeprofile'); ?>">Lihat Selengkapnya</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -22,7 +25,7 @@
             <div class="card bg-danger text-white mb-4">
                 <div class="card-body">
                     <h4><span class="fas fa-user-clock mr-2"></span>Terlambat</h4>
-                    <h6 class="mt-3"><?= $pegawaitelat ?><div class="d-inline ml-1">Karyawan
+                    <h6 class="mt-3"><div class="d-inline ml-1">Karyawan
                         </div>
                     </h6>
                 </div>
@@ -36,7 +39,7 @@
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">
                     <h4><span class="fas fa-user-check mr-2"></span>Hadir</h4>
-                    <h6 class="mt-3"><?= $pegawaimasuk ?><div class="d-inline ml-1">Karyawan</div>
+                    <h6 class="mt-3"><div class="d-inline ml-1">Karyawan</div>
                     </h6>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
@@ -123,4 +126,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

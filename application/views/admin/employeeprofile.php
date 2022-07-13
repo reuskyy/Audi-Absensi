@@ -45,7 +45,7 @@
 											<i class="fa fa-plus"></i>
 										</span>
 										<span class="text">
-											Input Employee
+											Tambah Karyawan
 										</span>
 									</a>
 								</div>
@@ -106,7 +106,7 @@
 														class="btn btn-circle btn-warning btn-sm"><i
 															class="fa fa-edit"></i></a>
 													<a href="<?= base_url('admin/toggle/') . $ep['id_employee'] ?>"
-														class="btn btn-circle btn-sm <?= $ep['is_active'] ? 'btn-secondary' : 'btn-success' ?>"
+														class="btn btn-circle btn-sm <?= $ep['is_active'] ? 'btn-success' : 'btn-secondary' ?>"
 														title="<?= $ep['is_active'] ? 'Nonaktifkan User' : 'Aktifkan User' ?>"><i
 															class="fa fa-fw fa-power-off"></i></a>
 												</td>

@@ -32,7 +32,7 @@
 		<?php else : ?>
 	<li class="nav-item ">
 		<?php endif; ?>
-		<a class="nav-link" style="color : #000;" href="<?= base_url('user/'); ?>">
+		<a class="nav-link" style="color : #000;" href="<?= base_url('admin/dashboard'); ?>">
 			<i class="fas fa-fw fa-tachometer-alt" style="color : #B7BBBD;"></i>
 			<span>Dashboard</span></a>
 	</li>
@@ -45,8 +45,8 @@
 	<li class="nav-item ">
 		<?php endif; ?>
 		<a class="nav-link" style="color : #000;" href="<?= base_url('admin/employeeprofile'); ?>">
-			<i class="fas fa-fw fa-tachometer-alt" style="color : #B7BBBD;"></i>
-			<span>Employee</span></a>
+			<i class="fas fa-fw fa-user" style="color : #B7BBBD;"></i>
+			<span>Data Karyawan</span></a>
 	</li>
 	<?php } else ;?>
 
@@ -76,9 +76,28 @@
 	</li>
 	<?php } else ;?>
 
-	<!-- Divider -->
-	<?php if($user['role_id'] >= 1){?>
-	<hr class="sidebar-divider mt">
+	<!-- Setting ap -->
+	<?php if($user['role_id'] <= 1){?>
+	<?php if($title == ['title']) : ?>
+	<li class="nav-item active">
+		<?php else : ?>
+	<li class="nav-item ">
+		<?php endif; ?>
+		<a class="nav-link" style="color : #000;" href="<?= base_url('admin/settingapp'); ?>">
+			<i class="fas fa-fw fa-tachometer-alt" style="color : #B7BBBD;"></i>
+			<span>Setting app</span></a>
+	</li>
+	<?php } else ;?>
+	<?php if($user['role_id'] <= 1){?>
+	<?php if($title == ['title']) : ?>
+	<li class="nav-item active">
+		<?php else : ?>
+	<li class="nav-item ">
+		<?php endif; ?>
+		<a class="nav-link" style="color : #000;" href="<?= base_url('user/absensi'); ?>">
+			<i class="fas fa-fw fa-tachometer-alt" style="color : #B7BBBD;"></i>
+			<span>Absensi</span></a>
+	</li>
 	<?php } else ;?>
 
 	<!-- Divider -->

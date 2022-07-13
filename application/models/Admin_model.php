@@ -46,6 +46,7 @@ class Admin_model extends CI_Model{
             return $query->result_array();
     }
 
+
     public function get_user1()
     {
         $query = "SELECT * FROM user";
@@ -158,6 +159,16 @@ class Admin_model extends CI_Model{
         INNER JOIN status_cuti ON cuti.id_status = status_cuti.id_status
         INNER JOIN tipe_cuti ON cuti.id_tipe_cuti = tipe_cuti.id_tipe_cuti
         WHERE cuti.id_employee= $id
+        ";
+        return $this->db->query($que)->result();
+    }
+
+    public function get_absensi()
+    {
+        $que = "SELECT * 
+        FROM absensi
+        INNER JOIN user ON absensi.id_employee = user.id_employee
+        INNER JOIN keterangan_absen ON absensi.keterangan_absen = keterangan_absen.id_keterangan
         ";
         return $this->db->query($que)->result();
     }

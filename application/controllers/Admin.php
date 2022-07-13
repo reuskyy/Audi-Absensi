@@ -6,8 +6,26 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $bulan = array(1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+        $hari = array("Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu");
+        $this->get_today_date = $hari[(int)date("w")] . ', ' . date("j ") . $bulan[(int)date('m')] . date(" Y");
         is_logged_in();
     }
+        
+
+    public function hitungjumlahdata($typehitung)
+    {
+        if ($typehitung == 'jmlpgw') {
+
+            $query = $this->db->get('user');
+            if ($query->num_rows() > 0) {
+                return $query->num_rows();
+            } else {
+                return 0;
+            }
+        }
+    }
+
     public function employeeprofile()
     {
         $data['title'] = 'Employee';
@@ -285,7 +303,7 @@ class Admin extends CI_Controller
             'user' => $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array()
             // 'dataapp' => $this->get_datasetupapp
         ];
-        // $data['jmlpegawai'] = $this->M_Admin->hitungjumlahdata('jmlpgw');
+        $data['jmlpegawai'] = $this->hitungjumlahdata('jmlpgw');
         // $data['pegawaitelat'] = $this->M_Admin->hitungjumlahdata('pgwtrl');
         // $data['pegawaimasuk'] = $this->M_Admin->hitungjumlahdata('pgwmsk');
         $this->load->view('templates/header', $data);
@@ -307,6 +325,17 @@ class Admin extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
+    public function settingapp()
+    {
+        $data['title'] = 'Setting';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Admin_model');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar2', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('admin/settingapp', $data);
+        $this->load->view('templates/footer', $data);
+    }
 
     public function kelolacuti()
     {
@@ -391,42 +420,6 @@ public function kelolacuti_detail()
     
 
     }
-    public function absenajax()
-    {
-        $clocknow = date("H:i:s");
-        $today = $this->get_today_date;
-        $appsettings = $this->appsetting;
-        $is_pulang = $this->db->get_where('absensi', ['tgl_absen' => $today, 'kode_pegawai' => $this->get_datasess['kode_pegawai']])->row_array();
-        if (strtotime($clocknow) <= strtotime($appsettings['absen_mulai'])) {
-            $reponse = [
-                'csrfName' => $this->security->get_csrf_token_name(),
-                'csrfHash' => $this->security->get_csrf_hash(),
-                'success' => false,
-                'msgabsen' => '<div class="alert alert-danger text-center" role="alert">Belum Waktunya Absen Datang</div>'
-            ];
-        } elseif (strtotime($clocknow) >= strtotime($appsettings['absen_mulai_to']) && strtotime($clocknow) <= strtotime($appsettings['absen_pulang']) && $this->db->get_where('db_absensi', ['tgl_absen' => $today, 'kode_pegawai' => $this->get_datasess['kode_pegawai']])->row_array()) {
-            $reponse = [
-                'csrfName' => $this->security->get_csrf_token_name(),
-                'csrfHash' => $this->security->get_csrf_hash(),
-                'success' => false,
-                'msgabsen' => '<div class="alert alert-danger text-center" role="alert">Belum Waktunya Absen Pulang</div>'
-            ];
-        } elseif (strtotime($clocknow) >= strtotime($appsettings['absen_mulai_to']) && strtotime($clocknow) >= strtotime($appsettings['absen_pulang']) && !empty($is_pulang['jam_pulang'])) {
-            $reponse = [
-                'csrfName' => $this->security->get_csrf_token_name(),
-                'csrfHash' => $this->security->get_csrf_hash(),
-                'success' => false,
-                'msgabsen' => '<div class="alert alert-danger text-center" role="alert">Anda Sudah Absen Pulang</div>'
-            ];
-        } else {
-            $this->M_Front->do_absen();
-            $reponse = [
-                'csrfName' => $this->security->get_csrf_token_name(),
-                'csrfHash' => $this->security->get_csrf_hash(),
-                'success' => true
-            ];
-        }
-        echo json_encode($reponse);
-    }
+    
     
 }
