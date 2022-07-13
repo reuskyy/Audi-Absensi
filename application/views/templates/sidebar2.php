@@ -46,7 +46,7 @@
 		<?php endif; ?>
 		<a class="nav-link" style="color : #000;" href="<?= base_url('admin/employeeprofile'); ?>">
 			<i class="fas fa-fw fa-user" style="color : #B7BBBD;"></i>
-			<span>Data Karyawannnn</span></a>
+			<span>Data Karyawann</span></a>
 	</li>
 	<?php } else ;?>
 
